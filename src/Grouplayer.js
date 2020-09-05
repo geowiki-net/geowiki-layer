@@ -1,5 +1,5 @@
 const Sublayer = require('./Sublayer')
-const SublayerFeature = require('./SublayerFeature')
+const GroupFeature = require('./GroupFeature')
 
 class Grouplayer extends Sublayer {
   constructor (master, options) {
@@ -7,9 +7,9 @@ class Grouplayer extends Sublayer {
 
     this.masterlayer = this.master.mainlayer
 
-    this.masterlayer.on('add', this.featureOnMainModified.bind(this))
-    this.masterlayer.on('remove', this.featureOnMainModified.bind(this))
-    this.masterlayer.on('update', this.featureOnMainModified.bind(this))
+    this.masterlayer.on('add', this.featureOnMainModified.bind(this, 'add'))
+    this.masterlayer.on('remove', this.featureOnMainModified.bind(this, 'remove'))
+    this.masterlayer.on('update', this.featureOnMainModified.bind(this, 'update'))
     this.on('add', this.featureGroupModified.bind(this))
     this.on('remove', this.featureGroupModified.bind(this))
   }
@@ -20,8 +20,8 @@ class Grouplayer extends Sublayer {
     })
   }
 
-  featureOnMainModified (ob, feature) {
-    let id = '' + feature.data.groupId
+  featureOnMainModified (action, ob, feature) {
+    const id = '' + feature.data.groupId
     if (!id) {
       return
     }
@@ -30,26 +30,32 @@ class Grouplayer extends Sublayer {
     if (id in this.visibleFeatures) {
       groupFeature = this.visibleFeatures[id]
     } else {
-      groupFeature = new SublayerFeature()
+      groupFeature = new GroupFeature(id, this)
     }
 
-    this.scheduleReprocess(id)
+    if (action === 'remove') {
+      groupFeature.object.remove(feature.object)
+    } else if (!groupFeature.object.has(feature.object)) {
+      groupFeature.object.add(feature.object)
+      this.scheduleReprocess(id)
+    }
 
-    console.log(id)
-    return
+    if (!(id in this.visibleFeatures)) {
+      this.add(groupFeature.object)
 
-    feature.members.forEach(member => {
-      if (member.id in this.visibleFeatures) {
-        this.scheduleReprocess(member.id)
-      }
-    })
+//      feature.object.members.forEach(member => {
+//        if (member.id in this.visibleFeatures) {
+//          this.scheduleReprocess(member.id)
+//        }
+//      })
+    }
   }
 
   twigData (ob, data) {
-    let result = super.twigData(ob, data)
+    const result = super.twigData(ob, data)
 
     for (var k in this.masterlayer.visibleFeatures) {
-      let feature = this.masterlayer.visibleFeatures[k]
+      const feature = this.masterlayer.visibleFeatures[k]
       if (feature.object.members) {
         feature.object.members.forEach((member, sequence) => {
           if (member.id === ob.id) {
