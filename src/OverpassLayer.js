@@ -84,7 +84,7 @@ class OverpassLayer {
     }
 
     if (this.options.groupFeature) {
-      let groupOptions = {
+      const groupOptions = {
         id: this.options.id,
         sublayer_id: 'group',
         minZoom: this.options.minZoom,

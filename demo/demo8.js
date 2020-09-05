@@ -1,3 +1,5 @@
+document.body.classList.add('hasInfo')
+
 map.createPane('casing')
 map.getPane('casing').style.zIndex = 399
 
@@ -27,6 +29,13 @@ var overpassLayer = new OverpassLayer({
     listExclude: true
   },
   groupFeature: {
+    listExclude: false,
+    styles: [ 'default' ],
+    style: {
+      color: 'blue',
+      width: 20,
+      opacity: 1
+    }
   }
 })
 overpassLayer.addTo(map)
