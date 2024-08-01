@@ -1,7 +1,5 @@
 /* eslint camelcase: 0 */
 
-require('./OverpassLayerList.css')
-
 const isTrue = require('./isTrue')
 
 class OverpassLayerList {

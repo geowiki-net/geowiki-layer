@@ -1,6 +1,4 @@
 /* eslint camelcase: 0 */
-require('./OverpassLayer.css')
-
 const ee = require('event-emitter')
 const BoundingBox = require('boundingbox')
 const twig = require('twig')

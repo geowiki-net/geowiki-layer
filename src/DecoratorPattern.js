@@ -8,7 +8,7 @@ class DecoratorPattern {
   constructor (layer) {
     this.layer = layer
 
-    if (L.polylineDecorator) {
+    if (typeof L !== 'undefined' && L.polylineDecorator) {
       this.layer.on('update', this.processObject.bind(this))
       this.layer.on('remove', this.removeObject.bind(this))
     }

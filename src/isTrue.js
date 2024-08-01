@@ -24,5 +24,5 @@ function isTrue (value) {
   return true
 }
 
-window.isTrue = isTrue
+global.isTrue = isTrue
 module.exports = isTrue
