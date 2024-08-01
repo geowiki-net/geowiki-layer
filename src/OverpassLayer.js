@@ -181,7 +181,7 @@ class OverpassLayer {
     this.zoom = options.zoom
 
     if (this.options.bounds) {
-      bounds = turf.intersect(this.bounds.toGeoJSON(), this.options.bounds)
+      const bounds = turf.intersect(this.bounds.toGeoJSON(), this.options.bounds)
 
       if (!bounds) {
         for (const k in this.subLayers) {
@@ -249,7 +249,7 @@ class OverpassLayer {
     }
 
     if (this.options.members) {
-      queryOptions.memberBounds = bounds
+      queryOptions.memberBounds = this.bounds
       queryOptions.memberCallback = (err, ob) => {
         if (err) {
           return console.error('unexpected error', err)

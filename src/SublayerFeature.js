@@ -1,6 +1,3 @@
-/* global L:false */
-const styleToLeaflet = require('./styleToLeaflet')
-const pointOnFeature = require('./pointOnFeature')
 const strToStyle = require('./strToStyle')
 const isTrue = require('./isTrue')
 
@@ -31,9 +28,6 @@ class SublayerFeature {
     const ob = this.object
     const showOptions = {
       styles: []
-    }
-    const leafletFeatureOptions = {
-      shiftWorld: this.sublayer.master.getShiftWorld()
     }
 
     if (ob.id in this.sublayer.shownFeatureOptions) {
@@ -73,8 +67,6 @@ class SublayerFeature {
         this.layouts[k] = this.sublayer.options.layouts[k]
       }
     }
-
-    const popupContent = this.layouts.popup
 
     this.id = ob.id
     this.layer_id = this.sublayer.options.id
