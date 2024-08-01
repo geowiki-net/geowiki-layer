@@ -441,7 +441,7 @@ class Sublayer {
       }
     }
 
-    this.lastZoom = this.map.getZoom()
+    this.lastZoom = this.master.zoom
   }
 
   recalc () {

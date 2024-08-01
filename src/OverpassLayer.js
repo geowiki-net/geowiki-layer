@@ -162,9 +162,9 @@ class OverpassLayer {
   calcGlobalTwigData () {
     this.globalTwigData = {
       map: {
-        zoom: this.map.getZoom(),
+        zoom: this.zoom,
         // from: https://stackoverflow.com/a/31266377
-        metersPerPixel: 40075016.686 * Math.abs(Math.cos(this.map.getCenter().lat / 180 * Math.PI)) / Math.pow(2, this.map.getZoom() + 8)
+        metersPerPixel: 40075016.686 * Math.abs(Math.cos(this.bounds.getCenter().lat / 180 * Math.PI)) / Math.pow(2, this.zoom + 8)
       }
     }
 
@@ -172,15 +172,16 @@ class OverpassLayer {
   }
 
   check_update_map () {
-    if (!this.map || !this.map._loaded) {
-      return
-    }
+    console.log('check_update_map')
+  }
 
+  moveTo (options, callback) {
     const queryOptions = JSON.parse(JSON.stringify(this.options.queryOptions))
-    let bounds = new BoundingBox(this.map.getBounds())
+    this.bounds = new BoundingBox(options.bounds)
+    this.zoom = options.zoom
 
     if (this.options.bounds) {
-      bounds = turf.intersect(bounds.toGeoJSON(), this.options.bounds)
+      bounds = turf.intersect(this.bounds.toGeoJSON(), this.options.bounds)
 
       if (!bounds) {
         for (const k in this.subLayers) {
@@ -190,8 +191,8 @@ class OverpassLayer {
       }
     }
 
-    if (this.map.getZoom() < this.options.minZoom ||
-       (this.options.maxZoom !== undefined && this.map.getZoom() > this.options.maxZoom)) {
+    if (this.zoom < this.options.minZoom ||
+       (this.options.maxZoom !== undefined && this.zoom > this.options.maxZoom)) {
       for (const k in this.subLayers) {
         this.subLayers[k].hideAll()
       }
@@ -203,7 +204,7 @@ class OverpassLayer {
     }
 
     for (const k in this.subLayers) {
-      this.subLayers[k].hideNonVisible(bounds)
+      this.subLayers[k].hideNonVisible(this.bounds)
     }
 
     let query = this.options.query
@@ -228,11 +229,11 @@ class OverpassLayer {
     this.calcGlobalTwigData()
 
     // When zoom level changed, update visible objects
-    if (this.lastZoom !== this.map.getZoom()) {
+    if (this.lastZoom !== this.zoom) {
       for (const k in this.subLayers) {
         this.subLayers[k].zoomChange()
       }
-      this.lastZoom = this.map.getZoom()
+      this.lastZoom = this.zoom
     }
 
     // Abort current requests (in case they are long-lasting - we don't need them
@@ -258,7 +259,7 @@ class OverpassLayer {
       }
     }
 
-    this.currentRequest = this.overpassFrontend.BBoxQuery(query, bounds,
+    this.currentRequest = this.overpassFrontend.BBoxQuery(query, this.bounds,
       queryOptions,
       (err, ob) => {
         if (err) {
@@ -280,6 +281,7 @@ class OverpassLayer {
         }
 
         this.currentRequest = null
+        callback(err)
       }.bind(this)
     )
 
@@ -366,8 +368,8 @@ class OverpassLayer {
    */
   getShiftWorld () {
     return [
-      Math.floor((this.map.getCenter().lng + 270) / 360) * 360,
-      Math.floor((this.map.getCenter().lng + 90) / 360) * 360
+      Math.floor((this.bounds.getCenter().lng + 270) / 360) * 360,
+      Math.floor((this.bounds.getCenter().lng + 90) / 360) * 360
     ]
   }
 }
