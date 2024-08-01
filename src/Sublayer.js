@@ -518,6 +518,10 @@ class Sublayer {
     const feature = new SublayerFeature(ob, this)
     return feature.evaluate()
   }
+
+  features () {
+    return Object.values(this.visibleFeatures)
+  }
 }
 
 ee(Sublayer.prototype)

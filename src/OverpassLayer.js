@@ -372,6 +372,12 @@ class OverpassLayer {
       Math.floor((this.bounds.getCenter().lng + 90) / 360) * 360
     ]
   }
+
+  features () {
+    return Object.values(this.subLayers)
+      .map(l => l.features())
+      .flat()
+  }
 }
 
 ee(OverpassLayer.prototype)
