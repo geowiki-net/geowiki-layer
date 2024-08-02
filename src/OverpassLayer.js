@@ -209,7 +209,7 @@ class OverpassLayer {
 
     let query = this.options.query
     if (typeof query === 'object') {
-      query = query[Object.keys(query).filter(function (x) { return x <= this.map.getZoom() }.bind(this)).reverse()[0]]
+      query = query[Object.keys(query).filter(function (x) { return x <= this.zoom }.bind(this)).reverse()[0]]
     }
 
     if (query !== this.lastQuery) {
