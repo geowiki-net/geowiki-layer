@@ -23,6 +23,9 @@ class OverpassLayer {
 
     this.overpassFrontend = 'overpassFrontend' in this.options ? this.options.overpassFrontend : global.overpassFrontend
     this.options.minZoom = 'minZoom' in this.options ? this.options.minZoom : 16
+    if (typeof this.options.query === 'object') {
+      this.options.minZoom = Object.keys(options.query)[0]
+    }
     this.options.maxZoom = 'maxZoom' in this.options ? this.options.maxZoom : undefined
     this.options.feature = 'feature' in this.options ? this.options.feature : {}
     this.options.feature.style = 'style' in this.options.feature ? this.options.feature.style : {}
