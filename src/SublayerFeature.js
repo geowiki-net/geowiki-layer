@@ -161,6 +161,23 @@ class SublayerFeature {
       const: this.sublayer.options.const
     }
 
+    if (ob.geometry) {
+      if (Array.isArray(ob.geometry)) {
+        result.is_area = ob.geometry[0] === ob.geometry[ob.geometry.length - 1]
+      } else if (ob.geometry.type) {
+        if (ob.geometry.type === 'Feature' && ob.geometry.geometry) {
+          result.is_area = ['Polygon', 'MultiPolygon'].includes(ob.geometry.geometry.type)
+        } else if (ob.geometry.type === 'FeatureCollection' && ob.geometry.features) {
+          result.is_area = !!ob.geometry.features
+            .map(f => f.geometry && ['Polygon', 'MultiPolygon'].includes(f.geometry.type))
+            .filter(v => v)
+            .length
+        }
+      } else if (ob.geometry.lat && ob.geometry.lon) {
+        result.is_area = true
+      }
+    }
+
     if (ob.memberFeatures) {
       ob.memberFeatures.forEach((member, sequence) => {
         const r = {
