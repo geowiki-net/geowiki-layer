@@ -215,6 +215,13 @@ class OverpassLayer {
       query = query[Object.keys(query).filter(function (x) { return x <= this.zoom }.bind(this)).reverse()[0]]
     }
 
+    const twigData = { ...this.globalTwigData }
+    this.emit('twigData', null, this, twigData)
+    const template = compileTemplate(query, twig, twigData)
+    if (typeof template === 'function') {
+      query = template(twigData)
+    }
+
     if (query !== this.lastQuery) {
       const filter = new OverpassFrontend.Filter(query)
       this.mainlayer.hideNonVisibleFilter(filter)
