@@ -4,6 +4,7 @@
   "description": "Load and evaluate data of Geowiki layer.",
   "dependencies": {
     "@turf/along": "^6.5.0",
+    "@turf/combine": "^7.2.0",
     "@turf/intersect": "^6.5.0",
     "@turf/length": "^6.5.0",
     "@turf/point-on-feature": "^5.1.5",
