@@ -38,13 +38,17 @@ class GroupObject {
   }
 
   GeoJSON () {
+    const geometries = Object.values(this.members)
+      .map(member => member.GeoJSON().geometry)
+
+    const geometry = {
+      type: 'GeometryCollection',
+      geometries
+    }
+
     return {
       type: 'Feature',
-      geometry: {
-        type: 'GeometryCollection',
-        geometries: Object.values(this.members)
-          .map(member => member.GeoJSON().geometry)
-      },
+      geometry,
       properties: {
         '@id': this.id,
         tags: {},
