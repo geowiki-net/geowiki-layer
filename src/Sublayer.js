@@ -277,7 +277,7 @@ class Sublayer {
     }
 
     if (id in this.visibleFeatures) {
-      window.setTimeout(() => {
+      global.setTimeout(() => {
         isDone = true
         if (!isAborted) {
           callback(null, this.visibleFeatures[id])
@@ -287,7 +287,7 @@ class Sublayer {
     }
 
     if (id in this.shownFeatures) {
-      window.setTimeout(() => {
+      global.setTimeout(() => {
         isDone = true
         if (!isAborted) {
           callback(null, this.shownFeatures[id])
@@ -456,7 +456,7 @@ class Sublayer {
 
   scheduleReprocess (id) {
     if (!(id in this._scheduledReprocesses)) {
-      this._scheduledReprocesses[id] = window.setTimeout(() => {
+      this._scheduledReprocesses[id] = global.setTimeout(() => {
         delete this._scheduledReprocesses[id]
 
         if (id in this.visibleFeatures) {
