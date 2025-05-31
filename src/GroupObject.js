@@ -1,4 +1,7 @@
 const ee = require('event-emitter')
+const turf = {
+  combine: require('@turf/combine').default
+}
 
 class GroupObject {
   constructor (id) {
@@ -55,13 +58,19 @@ class GroupObject {
   }
 
   GeoJSON () {
-    return {
+    let collection = {
+      type: 'FeatureCollection',
+      features: Object.values(this.members).map(
+        member => member.GeoJSON()
+      ),
+      properties: {}
+    }
+
+    collection = turf.combine(collection)
+
+    let result = {
       type: 'Feature',
-      geometry: {
-        type: 'GeometryCollection',
-        geometries: Object.values(this.members)
-          .map(member => member.GeoJSON().geometry)
-      },
+      geometry: collection.geometry,
       properties: {
         '@id': this.id,
         tags: {},
@@ -69,6 +78,8 @@ class GroupObject {
           .map(member => member.GeoJSON().properties)
       }
     }
+
+    return result
   }
 }
 
