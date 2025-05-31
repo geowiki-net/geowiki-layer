@@ -40,23 +40,6 @@ class GroupObject {
     return r ? 2 : intersectsBbox ? 1 : 0
   }
 
-  leafletFeature (options) {
-    let layers =
-      Object.values(this.members)
-        .map(member => member.leafletFeature(options))
-
-    let group = L.featureGroup(layers)
-//    this.on('update', () => {
-//      group.clearLayers()
-//      Object.values(this.members)
-//        .forEach(member => {
-//          group.addLayer(member.leafletFeature(param, options))
-//        })
-//    })
-
-    return group
-  }
-
   GeoJSON () {
     let collection = {
       type: 'FeatureCollection',
