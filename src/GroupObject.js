@@ -53,6 +53,23 @@ class GroupObject {
 
     return group
   }
+
+  GeoJSON () {
+    return {
+      type: 'Feature',
+      geometry: {
+        type: 'GeometryCollection',
+        geometries: Object.values(this.members)
+          .map(member => member.GeoJSON().geometry)
+      },
+      properties: {
+        '@id': this.id,
+        tags: {},
+        members: Object.values(this.members)
+          .map(member => member.GeoJSON().properties)
+      }
+    }
+  }
 }
 
 ee(GroupObject.prototype)
