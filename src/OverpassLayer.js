@@ -95,6 +95,7 @@ class OverpassLayer {
         const: this.options.const
       }
 
+      compileFeature(this.options.groupFeature, twig, { autoescape: true })
       this.subLayers.group = new Grouplayer(this, groupOptions)
     }
   }
