@@ -1,11 +1,6 @@
-const GroupObject = require('./GroupObject')
 const SublayerFeature = require('./SublayerFeature')
 
 class GroupFeature extends SublayerFeature {
-  constructor (object, sublayer) {
-    super(object, sublayer)
-  }
-
   compileTwigData () {
     const result = {
       id: this.id,
