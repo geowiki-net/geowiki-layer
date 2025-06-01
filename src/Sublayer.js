@@ -450,6 +450,14 @@ class Sublayer {
     }
   }
 
+  recalcScheduled () {
+    for (const k in this._scheduledReprocesses) {
+      if (k in this.visibleFeatures) {
+        this.visibleFeatures[k].processObject()
+      }
+    }
+  }
+
   _shallBindPopupToStyle (styleId) {
     return this.options.styleNoBindPopup.indexOf(styleId) === -1
   }
@@ -518,6 +526,7 @@ class Sublayer {
   }
 
   features () {
+    this.recalcScheduled()
     return Object.values(this.visibleFeatures)
   }
 }
