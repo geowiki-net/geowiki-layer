@@ -6,6 +6,7 @@ class Grouplayer extends Sublayer {
     super(master, options)
 
     this.masterlayer = this.master.mainlayer
+    this.featureClass = GroupFeature
 
     this.masterlayer.on('add', this.featureOnMainModified.bind(this, 'add'))
     this.masterlayer.on('remove', this.featureOnMainModified.bind(this, 'remove'))
