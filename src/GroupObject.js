@@ -1,4 +1,5 @@
 const ee = require('event-emitter')
+const mergeLineStrings = require('./mergeLineStrings')
 
 class GroupObject {
   constructor (id) {
@@ -66,10 +67,12 @@ class GroupObject {
     const geometries = Object.values(this.members)
       .map(member => member.GeoJSON().geometry)
 
-    const geometry = {
+    let geometry = {
       type: 'GeometryCollection',
       geometries
     }
+
+    geometry = mergeLineStrings(geometry)
 
     return {
       type: 'Feature',
