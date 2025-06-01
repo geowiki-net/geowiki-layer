@@ -26,7 +26,7 @@ class Grouplayer extends Sublayer {
     let groupFeature
     let groupObject
 
-    const id = '' + feature.data.groupId
+    const id = ('' + feature.data.groupId).trim()
     if (!id) {
       return
     }
