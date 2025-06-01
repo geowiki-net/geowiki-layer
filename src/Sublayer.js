@@ -457,8 +457,6 @@ class Sublayer {
   scheduleReprocess (id) {
     if (!(id in this._scheduledReprocesses)) {
       this._scheduledReprocesses[id] = global.setTimeout(() => {
-        delete this._scheduledReprocesses[id]
-
         if (id in this.visibleFeatures) {
           this.visibleFeatures[id].processObject()
         }
