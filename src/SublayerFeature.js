@@ -30,6 +30,10 @@ class SublayerFeature {
       styles: []
     }
 
+    // don't need to process object anymore
+    global.clearTimeout(this.sublayer._scheduledReprocesses[this.id])
+    delete(this.sublayer._scheduledReprocesses[this.id])
+
     if (ob.id in this.sublayer.shownFeatureOptions) {
       this.sublayer.shownFeatureOptions[ob.id].forEach(function (opt) {
         if ('styles' in opt) {
