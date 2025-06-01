@@ -17,6 +17,31 @@ class GroupObject {
     this.emit('update', this)
   }
 
+  tags () {
+    const result = {}
+
+    Object.values(this.members).forEach(member => {
+      Object.entries(member.tags).forEach(([key, value]) => {
+        const values = value.split(';')
+        if (!(key in result)) {
+          result[key] = []
+        }
+
+        values.forEach(v => {
+          if (!result[key].includes(v)) {
+            result[key].push(v)
+          }
+        })
+      })
+    })
+
+    Object.keys(result).forEach(key => {
+      result[key] = result[key].join(';')
+    })
+
+    return result
+  }
+
   has (feature) {
     return feature.id in this.members
   }
