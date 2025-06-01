@@ -1,5 +1,6 @@
 const Sublayer = require('./Sublayer')
 const GroupFeature = require('./GroupFeature')
+const GroupObject = require('./GroupObject')
 
 class Grouplayer extends Sublayer {
   constructor (master, options) {
@@ -22,27 +23,32 @@ class Grouplayer extends Sublayer {
   }
 
   featureOnMainModified (action, ob, feature) {
+    let groupFeature
+    let groupObject
+
     const id = '' + feature.data.groupId
     if (!id) {
       return
     }
 
-    let groupFeature
     if (id in this.visibleFeatures) {
       groupFeature = this.visibleFeatures[id]
+      groupObject = groupFeature.object
     } else {
-      groupFeature = new GroupFeature(id, this)
+      groupFeature = null
+      groupObject = new GroupObject(id)
+      groupObject.add(feature.object)
     }
 
     if (action === 'remove') {
       groupFeature.object.remove(feature.object)
-    } else if (!groupFeature.object.has(feature.object)) {
+    } else if (groupFeature && !groupFeature.object.has(feature.object)) {
       groupFeature.object.add(feature.object)
       this.scheduleReprocess(id)
     }
 
     if (!(id in this.visibleFeatures)) {
-      this.add(groupFeature.object)
+      this.add(groupObject)
 
 //      feature.object.members.forEach(member => {
 //        if (member.id in this.visibleFeatures) {
