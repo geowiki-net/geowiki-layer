@@ -8,6 +8,11 @@ class SublayerFeature {
     this.sublayer = sublayer
     this.isShown = false
     this.flags = {}
+
+    this.geometry = null
+    this.object.on('update', () => {
+      this.geometry = null
+    })
   }
 
   updateFlags () {
@@ -166,6 +171,11 @@ class SublayerFeature {
     }
 
     if (ob.geometry) {
+      if (!this.geometry) {
+        this.geometry = JSON.stringify(ob.GeoJSON().geometry)
+      }
+      result.geometry = this.geometry
+
       if (Array.isArray(ob.geometry)) {
         result.is_area = ob.geometry[0].lat === ob.geometry[ob.geometry.length - 1].lat && ob.geometry[0].lon === ob.geometry[ob.geometry.length - 1].lon
       } else if (ob.geometry.type) {
