@@ -1,3 +1,4 @@
+const twig = require('twig')
 const strToStyle = require('./strToStyle')
 const isTrue = require('./isTrue')
 
@@ -172,7 +173,7 @@ class SublayerFeature {
 
     if (ob.geometry) {
       if (!this.geometry) {
-        this.geometry = JSON.stringify(ob.GeoJSON().geometry)
+        this.geometry = twig.filters.raw(JSON.stringify(ob.GeoJSON().geometry))
       }
       result.geometry = this.geometry
 

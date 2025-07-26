@@ -1,9 +1,10 @@
+const twig = require('twig')
 const SublayerFeature = require('./SublayerFeature')
 
 class GroupFeature extends SublayerFeature {
   compileTwigData () {
     if (!this.geometry) {
-      this.geometry = JSON.stringify(this.object.GeoJSON().geometry)
+      this.geometry = twig.filters.raw(JSON.stringify(this.object.GeoJSON().geometry))
     }
 
     const result = {
