@@ -1,5 +1,4 @@
 const ee = require('event-emitter')
-const mergeLineStrings = require('./mergeLineStrings')
 
 class GroupObject {
   constructor (id) {
@@ -71,8 +70,6 @@ class GroupObject {
       type: 'GeometryCollection',
       geometries
     }
-
-    geometry = mergeLineStrings(geometry)
 
     return {
       type: 'Feature',
