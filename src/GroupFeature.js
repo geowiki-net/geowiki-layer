@@ -12,7 +12,12 @@ class GroupFeature extends SublayerFeature {
       sublayer_id: this.sublayer.options.sublayer_id,
       tags: this.object.tags(),
       geometry: this.geometry,
-      members: []
+      members: Object.values(this.object.members).map(member => {
+        return {
+          id: member.id,
+          tags: member.tags,
+        }
+      })
     }
 
     this.sublayer.emit('twigData', this.object, this, result)
