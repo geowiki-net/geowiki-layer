@@ -226,11 +226,6 @@ class SublayerFeature {
       }
     }
 
-    if (this.featureMarker && !isTrue(this.data.exclude)) {
-      this.featureMarker.addTo(this.map)
-      this.sublayer.updateAssets(this.featureMarker._icon)
-    }
-
     this.object.on('update', this.sublayer.scheduleReprocess.bind(this.sublayer, this.id))
 
     this.isShown = true
@@ -239,15 +234,6 @@ class SublayerFeature {
   hide () {
     this.sublayer.master.emit('remove', this.object, this)
     this.sublayer.emit('remove', this.object, this)
-
-    this.map.removeLayer(this.feature)
-    for (const k in this.features) {
-      this.map.removeLayer(this.features[k])
-    }
-
-    if (this.featureMarker) {
-      this.map.removeLayer(this.featureMarker)
-    }
 
     if (this.sublayer.master.onDisappear) {
       this.sublayer.master.onDisappear(this)
