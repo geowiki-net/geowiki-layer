@@ -117,6 +117,7 @@ The templates will be rendered when the object becomes visible and when the zoom
 * `type` ('node', 'way' or 'relation')
 * `is_area` ('true' if polygon, multipolygon or point)
 * `tags.*` (all tags are available with the prefix `tags.`, e.g. `tags.amenity`)
+* `geometry` (stringified GeoJSON geometry)
 * `meta.timestamp` (timestamp of last modification)
 * `meta.version` (version of the object)
 * `meta.changeset` (ID of the changeset, the object was last modified in)
