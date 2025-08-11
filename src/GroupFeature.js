@@ -20,6 +20,10 @@ class GroupFeature extends SublayerFeature {
       })
     }
 
+    for (const k in this.sublayer.master.globalTwigData) {
+      result[k] = this.sublayer.master.globalTwigData[k]
+    }
+
     this.sublayer.emit('twigData', this.object, this, result)
     this.sublayer.master.emit('twigData', this.object, this, result)
 
