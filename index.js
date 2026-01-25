@@ -1,4 +1,4 @@
-const OverpassFrontend = require('overpass-frontend')
+const OverpassFrontend = require('@geowiki-net/geowiki-api')
 
 const OverpassLayer = require('./src/OverpassLayer')
 const OverpassLayerList = require('./src/OverpassLayerList')

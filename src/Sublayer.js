@@ -1,6 +1,6 @@
 /* eslint-disable new-cap */
 const ee = require('event-emitter')
-const OverpassFrontend = require('overpass-frontend')
+const OverpassFrontend = require('@geowiki-net/geowiki-api')
 const nearestPointOnGeometry = require('nearest-point-on-geometry')
 const BoundingBox = require('boundingbox')
 

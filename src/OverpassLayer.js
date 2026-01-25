@@ -2,7 +2,7 @@
 const ee = require('event-emitter')
 const BoundingBox = require('boundingbox')
 const twig = require('twig')
-const OverpassFrontend = require('overpass-frontend')
+const OverpassFrontend = require('@geowiki-net/geowiki-api')
 const escapeHtml = require('html-escape')
 const turf = {
   intersect: require('@turf/intersect').default
