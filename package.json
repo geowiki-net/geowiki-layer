@@ -1,5 +1,5 @@
 {
-  "name": "geowiki-layer",
+  "name": "@geowiki-net/geowiki-layer",
   "version": "4.0.0-alpha1",
   "description": "Load and evaluate data of Geowiki layer.",
   "dependencies": {
