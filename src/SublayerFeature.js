@@ -163,7 +163,7 @@ class SublayerFeature {
 
     if (ob.geometry) {
       if (Array.isArray(ob.geometry)) {
-        result.is_area = ob.geometry[0] === ob.geometry[ob.geometry.length - 1]
+        result.is_area = ob.geometry[0].lat === ob.geometry[ob.geometry.length - 1].lat && ob.geometry[0].lon === ob.geometry[ob.geometry.length - 1].lon
       } else if (ob.geometry.type) {
         if (ob.geometry.type === 'Feature' && ob.geometry.geometry) {
           result.is_area = ['Polygon', 'MultiPolygon'].includes(ob.geometry.geometry.type)
