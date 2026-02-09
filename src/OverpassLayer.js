@@ -190,7 +190,7 @@ class OverpassLayer {
         for (const k in this.subLayers) {
           this.subLayers[k].hideAll()
         }
-        return
+        return callback()
       }
     }
 
@@ -203,7 +203,7 @@ class OverpassLayer {
       // abort remaining request
       this.abortRequest()
 
-      return
+      return callback()
     }
 
     for (const k in this.subLayers) {
@@ -251,7 +251,7 @@ class OverpassLayer {
     this.abortRequest()
 
     if (!query) {
-      return
+      return callback()
     }
 
     for (const k in this.subLayers) {
