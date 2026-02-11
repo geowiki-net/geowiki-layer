@@ -2,7 +2,7 @@
 const ee = require('event-emitter')
 const BoundingBox = require('boundingbox')
 const twig = require('twig')
-const OverpassFrontend = require('@geowiki-net/geowiki-api')
+const GeowikiAPI = require('@geowiki-net/geowiki-api')
 const escapeHtml = require('html-escape')
 const turf = {
   intersect: require('@turf/intersect').default
@@ -21,7 +21,7 @@ class OverpassLayer {
 
     this.options = options
 
-    this.overpassFrontend = 'overpassFrontend' in this.options ? this.options.overpassFrontend : global.overpassFrontend
+    this.geowikiAPI = 'geowikiAPI' in this.options ? this.options.geowikiAPI : global.geowikiAPI
     this.options.minZoom = 'minZoom' in this.options ? this.options.minZoom : 16
     if (typeof this.options.query === 'object') {
       this.options.minZoom = Object.keys(options.query)[0]
@@ -35,7 +35,7 @@ class OverpassLayer {
     this.options.feature.markerSign = 'markerSign' in this.options.feature ? this.options.feature.markerSign : null
     this.options.queryOptions = 'queryOptions' in this.options ? this.options.queryOptions : {}
     if (!('properties' in this.options.queryOptions)) {
-      this.options.queryOptions.properties = OverpassFrontend.ALL
+      this.options.queryOptions.properties = GeowikiAPI.ALL
     }
     this.options.styleNoBindPopup = this.options.styleNoBindPopup || []
     this.options.stylesNoAutoShow = this.options.stylesNoAutoShow || []
@@ -58,8 +58,8 @@ class OverpassLayer {
     }
 
     if (this.options.members) {
-      this.options.queryOptions.properties = OverpassFrontend.TAGS | OverpassFrontend.META | OverpassFrontend.MEMBERS | OverpassFrontend.BBOX
-      this.options.queryOptions.memberProperties = OverpassFrontend.ALL
+      this.options.queryOptions.properties = GeowikiAPI.TAGS | GeowikiAPI.META | GeowikiAPI.MEMBERS | GeowikiAPI.BBOX
+      this.options.queryOptions.memberProperties = GeowikiAPI.ALL
       this.options.queryOptions.members = true
 
       const memberOptions = {
@@ -154,7 +154,7 @@ class OverpassLayer {
 
   /**
    * set an additional filter. Will intiate a check_update_map()
-   * @param {OverpassFrontend.Filter|object|null} filter A filter. See OverpassFrontend.Filter for details.
+   * @param {GeowikiAPI.Filter|object|null} filter A filter. See GeowikiAPI.Filter for details.
    */
   setFilter (filter) {
     this.filter = filter
@@ -223,14 +223,14 @@ class OverpassLayer {
     }
 
     if (query !== this.lastQuery) {
-      const filter = new OverpassFrontend.Filter(query)
+      const filter = new GeowikiAPI.Filter(query)
       this.mainlayer.hideNonVisibleFilter(filter)
       this.lastQuery = query
     }
 
     queryOptions.filter = this.filter
     if (this.filter !== this.lastFilter) {
-      const filter = new OverpassFrontend.Filter(this.filter)
+      const filter = new GeowikiAPI.Filter(this.filter)
       this.mainlayer.hideNonVisibleFilter(filter)
       this.lastFilter = this.filter
     }
@@ -269,7 +269,7 @@ class OverpassLayer {
       }
     }
 
-    this.currentRequest = this.overpassFrontend.BBoxQuery(query, this.bounds,
+    this.currentRequest = this.geowikiAPI.BBoxQuery(query, this.bounds,
       queryOptions,
       (err, ob) => {
         if (err) {
@@ -278,7 +278,8 @@ class OverpassLayer {
 
         this.mainlayer.add(ob)
       },
-      function (err) {
+      function (err, r) {
+        console.log(r)
         if (this.onLoadEnd) {
           this.onLoadEnd({
             request: this.currentRequest,
@@ -328,9 +329,9 @@ class OverpassLayer {
   get (id, callback) {
     let done = false
 
-    this.overpassFrontend.get(id,
+    this.geowikiAPI.get(id,
       {
-        properties: OverpassFrontend.ALL
+        properties: GeowikiAPI.ALL
       },
       (err, ob) => {
         if (err === null) {

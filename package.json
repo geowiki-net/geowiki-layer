@@ -3,7 +3,7 @@
   "version": "4.0.0-beta.1",
   "description": "Load and evaluate data of Geowiki layer.",
   "dependencies": {
-    "@geowiki-net/geowiki-api": "^4.0.0-beta.1",
+    "@geowiki-net/geowiki-api": "^4.0.0-beta.2",
     "@turf/along": "^6.5.0",
     "@turf/intersect": "^6.5.0",
     "@turf/length": "^6.5.0",
