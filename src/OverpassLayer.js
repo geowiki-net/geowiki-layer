@@ -174,11 +174,36 @@ class OverpassLayer {
     this.emit('globalTwigData', this.globalTwigData)
   }
 
+  /**
+   * set or clear attribution. if cleared, it will read/request the
+   * attribution from GeowikiAPI (either geowikiAPI.options.attribution or
+   * geowikiAPI.meta.copyright).
+   * @param {string} [attribution] A HTML string
+   * containing the attribution.
+   */
+  setAttribution (attribution = null) {
+    // TODO: sanitize HTML string
+    // TODO: in GeowikiAPI provide a getAttribution() function
+    if (attribution === null) {
+      if (this.geowikiAPI.options.attribution || this.geowikiAPI.meta) {
+        attribution = this.geowikiAPI.options.attribution ?? this.geowikiAPI.meta.copyright
+      } else {
+        this.geowikiAPI.once('load', () => this.setAttribution())
+      }
+    }
+
+    this.options.attribution = attribution
+  }
+
   check_update_map () {
     console.log('check_update_map')
   }
 
   moveTo (options, callback) {
+    if (!this.options.attribution) {
+      this.setAttribution()
+    }
+
     const queryOptions = JSON.parse(JSON.stringify(this.options.queryOptions))
     this.bounds = new BoundingBox(options.bounds)
     this.zoom = options.zoom
