@@ -90,7 +90,7 @@ class OverpassLayerList {
     ob[this.options.prefix + 'Item'] = div
 
     // CONTENT
-    const html = DOMPurify.sanitize(ob.layouts[this.options.prefix] || ob.layouts.list || '')
+    const html = DOMPurify.sanitize(ob.renderLayout([this.options.prefix, 'list']) || '')
     div.innerHTML = html
     div.currentHTML = html
 
@@ -159,7 +159,7 @@ class OverpassLayerList {
     }
 
     // CONTENT
-    const html = DOMPurify.sanitize(ob.layouts[this.options.prefix] || ob.layouts.list || '')
+    const html = DOMPurify.sanitize(ob.renderLayout([this.options.prefix, 'list']) || '')
     if (div.currentHTML !== html) {
       div.innerHTML = html
       div.currentHTML = html
