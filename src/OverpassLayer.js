@@ -1,4 +1,3 @@
-/* global Sanitizer */
 /* eslint camelcase: 0 */
 const ee = require('event-emitter')
 const BoundingBox = require('boundingbox')
