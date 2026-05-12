@@ -1,4 +1,5 @@
 /* global L:false */
+const DOMPurify = require('dompurify')
 const twig = require('twig')
 const strToStyle = require('./strToStyle')
 const isTrue = require('./isTrue')
@@ -69,6 +70,7 @@ class SublayerFeature {
     }
     this.styles = objectData.styles
 
+
     this.layouts = {}
     for (const k in this.sublayer.options.layouts) {
       if (typeof this.sublayer.options.layouts[k] === 'function') {
@@ -92,7 +94,8 @@ class SublayerFeature {
   }
 
   _popupOpen (e) {
-    const popupContent = this.layouts.popup
+    const popupContent = DOMPurify.sanitize(this.layouts.popup)
+
     if (popupContent !== null) {
       e.popup.setContent(popupContent)
       e.popup.currentHTML = popupContent

@@ -1,5 +1,6 @@
 /* eslint camelcase: 0 */
 
+const DOMPurify = require('dompurify')
 const isTrue = require('./isTrue')
 
 class OverpassLayerList {
@@ -89,7 +90,7 @@ class OverpassLayerList {
     ob[this.options.prefix + 'Item'] = div
 
     // CONTENT
-    const html = ob.layouts[this.options.prefix] || ob.layouts.list || ''
+    const html = DOMPurify.sanitize(ob.layouts[this.options.prefix] || ob.layouts.list || '')
     div.innerHTML = html
     div.currentHTML = html
 
@@ -158,7 +159,7 @@ class OverpassLayerList {
     }
 
     // CONTENT
-    const html = ob.layouts[this.options.prefix] || ob.layouts.list || ''
+    const html = DOMPurify.sanitize(ob.layouts[this.options.prefix] || ob.layouts.list || '')
     if (div.currentHTML !== html) {
       div.innerHTML = html
       div.currentHTML = html
