@@ -299,7 +299,8 @@ class SublayerFeature {
 
     if (this.featureMarker && !isTrue(this.data.exclude)) {
       this.featureMarker.addTo(this.map)
-      this.sublayer.updateAssets(this.featureMarker._icon)
+      // TODO - updateAssets changed parameters, update dependents
+      this.sublayer.updateAssets(this.featureMarker._icon, this.object, this)
     }
 
     this.object.on('update', this.sublayer.scheduleReprocess.bind(this.sublayer, this.id))
