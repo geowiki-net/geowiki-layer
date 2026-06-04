@@ -11,6 +11,7 @@ class SublayerFeature {
     this.sublayer = sublayer
     this.isShown = false
     this.flags = {}
+    this.features = {}
 
     this.geometry = null
 
@@ -49,13 +50,11 @@ class SublayerFeature {
       })
     }
 
-    // TODO: deprecate objectData, this.objectData, this.data -> replace by .renderFeatureValue()
-    const objectData = this.evaluate()
-    this.objectData = objectData
+    this.twigData = this.compileTwigData()
     this._objectData = {}
     this.renderFeatureValue('pre')
 
-    const exclude = isTrue(objectData.exclude)
+    const exclude = isTrue(this.renderFeatureValue('exclude'))
 
     if (exclude) {
       objectData.styles = []
@@ -77,7 +76,6 @@ class SublayerFeature {
     this.id = ob.id
     this.layer_id = this.sublayer.options.id
     this.sublayer_id = this.sublayer.options.sublayer_id
-    this.data = objectData
 
     if (this.sublayer.master.onUpdate) {
       this.sublayer.master.onUpdate(this)
@@ -162,59 +160,6 @@ class SublayerFeature {
 
   _popupClose (e) {
     e.popup.currentHTML = null
-  }
-
-  evaluate () {
-    this.twigData = this.compileTwigData()
-
-    global.currentMapFeature = this
-    const objectData = {}
-    for (const k in this.sublayer.options.feature) {
-      if (typeof this.sublayer.options.feature[k] === 'function') {
-        objectData[k] = this.sublayer.options.feature[k](this.twigData)
-      } else {
-        objectData[k] = this.sublayer.options.feature[k]
-      }
-    }
-    delete global.currentMapFeature
-
-    const styleIds = []
-    for (const k in objectData) {
-      const m = k.match(/^style(|:(.*))$/)
-      if (m) {
-        const style = objectData[k]
-        const styleId = typeof m[2] === 'undefined' ? 'default' : m[2]
-
-        if (typeof style === 'string' || 'twig_markup' in style) {
-          objectData[k] = strToStyle(style)
-        }
-
-        if (this.sublayer.options.stylesNoAutoShow.indexOf(styleId) === -1) {
-          styleIds.push(styleId)
-        }
-      }
-    }
-
-    if (!('features' in this)) {
-      this.features = {}
-    }
-
-    objectData.styles =
-      'styles' in objectData
-        ? objectData.styles
-        : 'styles' in this.sublayer.options
-          ? this.sublayer.options.styles
-          : styleIds
-    if (typeof objectData.styles === 'string' || 'twig_markup' in objectData.styles) {
-      const styles = objectData.styles.trim()
-      if (styles === '') {
-        objectData.styles = []
-      } else {
-        objectData.styles = styles.split(/,/).map(style => style.trim())
-      }
-    }
-
-    return objectData
   }
 
   compileTwigData () {
