@@ -53,6 +53,7 @@ class SublayerFeature {
     const objectData = this.evaluate()
     this.objectData = objectData
     this._objectData = {}
+    this.renderFeatureValue('pre')
 
     const exclude = isTrue(objectData.exclude)
 
