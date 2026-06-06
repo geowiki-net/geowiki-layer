@@ -30,12 +30,13 @@
     "leaflet-polylinedecorator": "git+https://github.com/plepe/Leaflet.PolylineDecorator.git",
     "leaflet-polylineoffset": "^1.1.1",
     "leaflet-textpath": "^1.2.3",
+    "mocha": "^11.7.6",
     "standard": "^16.0.3",
     "watchify": "^4.0.0"
   },
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --bail",
     "build": "browserify -g browserify-css index.js -o dist/geowiki-layer.js",
     "watch": "watchify --debug -g browserify-css index.js -o dist/geowiki-layer.js -v",
     "prepare": "npm run build",
