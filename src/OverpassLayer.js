@@ -5,7 +5,7 @@ const twig = require('twig')
 const GeowikiAPI = require('@geowiki-net/geowiki-api')
 const geoFunctions = require('@geowiki-net/geowiki-lib-geo-functions')
 const escapeHtml = require('html-escape')
-const DOMPurify = require('dompurify')
+const DOMPurify = require('./dompurify')
 const turf = {
   intersect: require('@turf/intersect').default
 }
