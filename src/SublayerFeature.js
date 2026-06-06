@@ -1,7 +1,5 @@
-/* global L:false */
 const DOMPurify = require('dompurify')
 const twig = require('twig')
-const strToStyle = require('./strToStyle')
 const isTrue = require('./isTrue')
 
 class SublayerFeature {
@@ -36,7 +34,6 @@ class SublayerFeature {
   }
 
   processObject () {
-    let k
     const ob = this.object
     const showOptions = {
       styles: []
@@ -53,25 +50,6 @@ class SublayerFeature {
     this.twigData = this.compileTwigData()
     this._objectData = {}
     this.renderFeatureValue('pre')
-
-    const exclude = isTrue(this.renderFeatureValue('exclude'))
-
-    if (exclude) {
-      objectData.styles = []
-    }
-
-    if (this.isShown) {
-      this.feature.addTo(this.sublayer.map)
-      for (k in this.features) {
-        if (objectData.styles && objectData.styles.indexOf(k) !== -1 && this.styles && this.styles.indexOf(k) === -1) {
-          this.features[k].addTo(this.sublayer.map)
-        }
-        if (objectData.styles && objectData.styles.indexOf(k) === -1 && this.styles && this.styles.indexOf(k) !== -1) {
-          this.sublayer.map.removeLayer(this.features[k])
-        }
-      }
-    }
-    this.styles = objectData.styles
 
     this.id = ob.id
     this.layer_id = this.sublayer.options.id
