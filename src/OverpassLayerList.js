@@ -69,8 +69,6 @@ class OverpassLayerList {
   }
 
   addObject (ob) {
-    const id = ob.id + ':' + ob.sublayer_id
-
     const listExclude = ob.renderFeatureValue([this.options.prefix + 'Exclude', 'exclude'])
     if (isTrue(listExclude)) {
       return
