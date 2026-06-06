@@ -1,3 +1,4 @@
+/* global describe:false, it:false */
 const assert = require('assert')
 
 const GeowikiLayer = require('..')
@@ -29,8 +30,10 @@ describe('init', function () {
 
     geowikiLayer.moveTo({
       bounds: {
-        minlat: 48.198, minlon: 16.337,
-        maxlat: 48.199, maxlon: 16.338
+        minlat: 48.198,
+        minlon: 16.337,
+        maxlat: 48.199,
+        maxlon: 16.338
       },
       zoom: 18
     }, function () {
