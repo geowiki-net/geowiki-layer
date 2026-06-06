@@ -85,40 +85,8 @@ class OverpassLayer {
     }
   }
 
-  setBounds (bounds) {
-    this.options.bounds = bounds
-    this.check_update_map()
-  }
-
   setLayout (id, layout) {
     this.options.layouts[id] = compileTemplate(layout, twig, { autoescape: false })
-  }
-
-  // compatibilty Leaflet Layerswitcher
-  _layerAdd (e) {
-    this.addTo(e.target)
-  }
-
-  // compatibilty Leaflet Layerswitcher
-  onRemove () {
-    this.remove()
-  }
-
-  // compatibilty Leaflet Layerswitcher - use emit instead
-  fire () {
-  }
-
-  addTo (map) {
-    this.map = map
-    this.emit('layeradd')
-    this.map.on('moveend', this.check_update_map, this)
-    for (const k in this.subLayers) {
-      this.subLayers[k].addTo(map)
-    }
-    this.check_update_map()
-
-    this.map.createPane('hover')
-    this.map.getPane('hover').style.zIndex = 499
   }
 
   hideAll (force) {
@@ -135,9 +103,6 @@ class OverpassLayer {
 
     this.abortRequest()
     this.emit('layerremove')
-
-    this.map.off('moveend', this.check_update_map, this)
-    this.map = null
   }
 
   abortRequest () {
@@ -198,10 +163,6 @@ class OverpassLayer {
       this.hideAll()
       this.check_update_map()
     }
-  }
-
-  check_update_map () {
-    console.log('check_update_map')
   }
 
   moveTo (options, callback) {
@@ -399,10 +360,6 @@ class OverpassLayer {
     this.mainlayer.hide(id)
   }
 
-  openPopupOnObject (ob, sublayer = 'main') {
-    this.subLayers[sublayer].openPopupOnObject(ob)
-  }
-
   /**
    * get the degrees by which the world should be shifted, to show map features at the current view port (e.g. when you wrap over -180 or 180 longitude). E.g. near lon 180, the Eastern hemisphere (lon 0 .. 180) does not have to be shifted, the Western hemisphere (lon -180 .. 0) has to be shifted by 360 degrees.
    * @return {number[]} An array with two elements: degrees to shift the Western hemisphere, degrees to shift the Eastern hemisphere. Each value is a multiple of 360.
@@ -422,8 +379,5 @@ class OverpassLayer {
 }
 
 ee(OverpassLayer.prototype)
-
-// to enable extending twig
-OverpassLayer.twig = twig
 
 module.exports = OverpassLayer
