@@ -1,5 +1,5 @@
 /* eslint camelcase: 0 */
-const ee = require('event-emitter')
+const Events = require('events')
 const BoundingBox = require('boundingbox')
 const twig = require('twig')
 const GeowikiAPI = require('@geowiki-net/geowiki-api')
@@ -15,8 +15,9 @@ const Memberlayer = require('./Memberlayer')
 const compileFeature = require('./compileFeature')
 const compileTemplate = require('./compileTemplate')
 
-class OverpassLayer {
+class OverpassLayer extends Events {
   constructor (options) {
+    super()
     if (!options) {
       options = {}
     }
@@ -377,7 +378,5 @@ class OverpassLayer {
       .flat()
   }
 }
-
-ee(OverpassLayer.prototype)
 
 module.exports = OverpassLayer

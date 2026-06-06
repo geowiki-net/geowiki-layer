@@ -1,5 +1,5 @@
 /* eslint-disable new-cap */
-const ee = require('event-emitter')
+const Events = require('events')
 const GeowikiAPI = require('@geowiki-net/geowiki-api')
 const nearestPointOnGeometry = require('nearest-point-on-geometry')
 const BoundingBox = require('boundingbox')
@@ -11,8 +11,9 @@ const decorators = [
   require('./DecoratorPattern')
 ]
 
-class Sublayer {
+class Sublayer extends Events {
   constructor (master, options) {
+    super()
     this.master = master
 
     options.sublayer_id = options.sublayer_id || 'main'
@@ -523,7 +524,5 @@ class Sublayer {
     return Object.values(this.visibleFeatures)
   }
 }
-
-ee(Sublayer.prototype)
 
 module.exports = Sublayer
