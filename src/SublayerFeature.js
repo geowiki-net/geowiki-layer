@@ -236,15 +236,6 @@ class SublayerFeature {
     this.sublayer.master.emit('remove', this.object, this)
     this.sublayer.emit('remove', this.object, this)
 
-    this.map.removeLayer(this.feature)
-    for (const k in this.features) {
-      this.map.removeLayer(this.features[k])
-    }
-
-    if (this.featureMarker) {
-      this.map.removeLayer(this.featureMarker)
-    }
-
     if (this.sublayer.master.onDisappear) {
       this.sublayer.master.onDisappear(this)
     }
