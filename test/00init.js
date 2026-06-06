@@ -45,4 +45,33 @@ describe('init', function () {
       found.push(feature.id)
     })
   })
+
+  it('GeowikiLayer moveto', function (done) {
+    const expectedAdd = ['w313063260', 'w314245155', 'r4199627', 'r4199634', 'r4222638'].sort()
+    const expectedRemove = ['w314245164', 'w314245165', 'r4222639', 'r4222640'].sort()
+    const foundAdd = []
+    const foundRemove = []
+
+    geowikiLayer.on('add', (ob, feature) => {
+      foundAdd.push(feature.id)
+    })
+    geowikiLayer.on('remove', (ob, feature) => {
+      console.log(feature.id)
+      foundRemove.push(feature.id)
+    })
+
+    geowikiLayer.moveTo({
+      bounds: {
+        minlat: 48.1985,
+        minlon: 16.337,
+        maxlat: 48.1995,
+        maxlon: 16.338
+      },
+      zoom: 18
+    }, function () {
+      assert.deepEqual(foundAdd.sort(), expectedAdd, 'Wrong list of added map items found')
+      assert.deepEqual(foundRemove.sort(), expectedRemove, 'Wrong list of removed map items found')
+      done()
+    })
+  })
 })
