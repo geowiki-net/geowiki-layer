@@ -8,7 +8,6 @@ const SublayerFeature = require('./SublayerFeature')
 
 // Extensions:
 const decorators = [
-  require('./DecoratorPattern')
 ]
 
 class Sublayer extends Events {
