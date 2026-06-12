@@ -265,7 +265,15 @@ class SublayerFeature {
       })
     }
 
-    let styles = (this.renderFeatureValue('styles') ?? '').split(',').map(v => v.trim())
+    let styles = this.renderFeatureValue('styles')
+    if (styles === null || styles === undefined) {
+      styles = Object.keys(this.sublayer.options.feature)
+        .filter(k => k.match(/^style(:.*)$/))
+        .map(k => k === 'style' ? 'default' : k.substr(6))
+    } else {
+      styles = styles.split(',').map(v => v.trim())
+    }
+
     if (!styles) {
       styles = 'styles' in this.sublayer.options ? this.sublayer.options.styles : this.sublayer.autoStyles
     }
