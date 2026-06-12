@@ -15,11 +15,11 @@ describe('simple interactions', function () {
       geowikiAPI,
       query: 'nwr[highway=primary]',
       feature: {
-        'styles': 'casing,default',
-        'style': {
-          'text': '{{ tags.name }}',
-          'color': 'white',
-          'width': 4
+        styles: 'casing,default',
+        style: {
+          text: '{{ tags.name }}',
+          color: 'white',
+          width: 4
         },
         'style:casing': 'color: black\nwidth: 8'
       }
@@ -66,12 +66,9 @@ describe('simple interactions', function () {
           casing: { color: 'black', width: 8 },
           default: { text: 'Neubaugürtel', color: 'white', width: 4 }
         }, styles)
-
-
       })
 
       done()
     })
   })
-
 })
