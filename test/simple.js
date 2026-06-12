@@ -77,4 +77,28 @@ describe('simple interactions', function () {
       done()
     })
   })
+
+  it('GeowikiLayer zoom next', function (done) {
+    const expectedAdd = [].sort()
+    const expectedRemove = [].sort()
+    const expectedUpdate = ['r4199627', 'r4199634', 'r4222638', 'w313063260', 'w314245155', 'w314245157', 'w314245158', 'w314245160', 'w314245161', 'w314245167', 'w314245168', 'w314245169', 'w314245170', 'w314245171', 'w314245172', 'w314245176'].sort()
+    foundAdd = []
+    foundRemove = []
+    foundUpdate = []
+
+    geowikiLayer.moveTo({
+      bounds: {
+        minlat: 48.1985,
+        minlon: 16.337,
+        maxlat: 48.1995,
+        maxlon: 16.338
+      },
+      zoom: 19
+    }, function () {
+      assert.deepEqual(foundAdd.sort(), expectedAdd, 'Wrong list of added map items found')
+      assert.deepEqual(foundRemove.sort(), expectedRemove, 'Wrong list of removed map items found')
+      assert.deepEqual(foundUpdate.sort(), expectedUpdate, 'Wrong list of updated map items found')
+      done()
+    })
+  })
 })
