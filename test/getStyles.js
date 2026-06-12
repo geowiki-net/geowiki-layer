@@ -65,7 +65,9 @@ describe('simple interactions', function () {
         assert.deepEqual(
           feature.twigData.map,
           {
-            zoom: 18
+            zoom: 18,
+            center: { lat: 48.198499999999996, lon: 16.3375 },
+            metersPerPixel: 0.3980410394453913
           }
         )
 
