@@ -8,6 +8,7 @@ let geowikiLayer
 describe('simple interactions', function () {
   let foundAdd
   let foundRemove
+  let foundUpdate
 
   it('initialize GeowikiLayer', function (done) {
     geowikiLayer = new GeowikiLayer({
@@ -21,8 +22,10 @@ describe('simple interactions', function () {
   it('GeowikiLayer moveto', function (done) {
     const expectedAdd = ['w314245157', 'w314245158', 'w314245160', 'w314245161', 'w314245164', 'w314245165', 'w314245167', 'w314245168', 'w314245169', 'w314245170', 'w314245171', 'w314245172', 'w314245176', 'r4222639', 'r4222640'].sort()
     const expectedRemove = []
+    const expectedUpdate = ['w314245157', 'w314245158', 'w314245160', 'w314245161', 'w314245164', 'w314245165', 'w314245167', 'w314245168', 'w314245169', 'w314245170', 'w314245171', 'w314245172', 'w314245176', 'r4222639', 'r4222640'].sort()
     foundAdd = []
     foundRemove = []
+    foundUpdate = []
 
     geowikiLayer.moveTo({
       bounds: {
@@ -35,6 +38,7 @@ describe('simple interactions', function () {
     }, function () {
       assert.deepEqual(foundAdd.sort(), expectedAdd, 'Wrong list of added map items found')
       assert.deepEqual(foundRemove.sort(), expectedRemove, 'Wrong list of removed map items found')
+      assert.deepEqual(foundUpdate.sort(), expectedUpdate, 'Wrong list of updated map items found')
       done()
     })
 
@@ -45,13 +49,18 @@ describe('simple interactions', function () {
     geowikiLayer.on('remove', (ob, feature) => {
       foundRemove.push(feature.id)
     })
+    geowikiLayer.on('update', (ob, feature) => {
+      foundUpdate.push(feature.id)
+    })
   })
 
   it('GeowikiLayer moveto', function (done) {
     const expectedAdd = ['w313063260', 'w314245155', 'r4199627', 'r4199634', 'r4222638'].sort()
     const expectedRemove = ['w314245164', 'w314245165', 'r4222639', 'r4222640'].sort()
+    const expectedUpdate = ['w313063260', 'w314245155', 'r4199627', 'r4199634', 'r4222638'].sort()
     foundAdd = []
     foundRemove = []
+    foundUpdate = []
 
     geowikiLayer.moveTo({
       bounds: {
@@ -64,6 +73,7 @@ describe('simple interactions', function () {
     }, function () {
       assert.deepEqual(foundAdd.sort(), expectedAdd, 'Wrong list of added map items found')
       assert.deepEqual(foundRemove.sort(), expectedRemove, 'Wrong list of removed map items found')
+      assert.deepEqual(foundUpdate.sort(), expectedUpdate, 'Wrong list of updated map items found')
       done()
     })
   })
