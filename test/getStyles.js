@@ -17,6 +17,7 @@ describe('simple interactions', function () {
       feature: {
         'styles': 'casing,default',
         'style': {
+          'text': '{{ tags.name }}',
           'color': 'white',
           'width': 4
         },
@@ -63,7 +64,7 @@ describe('simple interactions', function () {
         const styles = feature.getStyles()
         assert.deepEqual({
           casing: { color: 'black', width: 8 },
-          default: { color: 'white', width: 4 }
+          default: { text: 'Neubaugürtel', color: 'white', width: 4 }
         }, styles)
 
 
