@@ -248,6 +248,47 @@ class SublayerFeature {
   recalc () {
     this.sublayer.scheduleReprocess(this.id)
   }
+
+  _renderableStyles () {
+    const ob = this.object
+
+    const showOptions = {
+      styles: []
+    }
+
+    if (ob.id in this.sublayer.shownFeatureOptions) {
+      this.sublayer.shownFeatureOptions[ob.id].forEach(function (opt) {
+        if ('styles' in opt) {
+          showOptions.styles = showOptions.styles.concat(opt.styles)
+        }
+      })
+    }
+
+    let styles = (this.renderFeatureValue('styles') ?? '').split(',').map(v => v.trim())
+    if (!styles) {
+      styles = 'styles' in this.sublayer.options ? this.sublayer.options.styles : this.sublayer.autoStyles
+    }
+
+    if ('styles' in showOptions) {
+      styles = styles.concat(showOptions.styles)
+    }
+
+    return styles
+  }
+
+  getStyles () {
+    const result = {}
+    const styles = this._renderableStyles()
+
+    styles.forEach(styleId => {
+      const k = styleId === 'default' ? 'style' : ('style:' + styleId)
+      let data = this.renderFeatureValue(k)
+
+      result[styleId] = data
+    })
+
+    return result
+  }
 }
 
 module.exports = SublayerFeature
