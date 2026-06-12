@@ -1,4 +1,3 @@
-/* global L:false */
 const twig = require('twig')
 const strToStyle = require('./strToStyle')
 const isTrue = require('./isTrue')
