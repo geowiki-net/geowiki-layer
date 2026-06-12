@@ -61,6 +61,14 @@ describe('simple interactions', function () {
       assert.deepEqual(foundUpdate.sort(), expectedUpdate, 'Wrong list of updated map items found')
 
       geowikiLayer.features().forEach(feature => {
+        // Check twigData.map
+        assert.deepEqual(
+          feature.twigData.map,
+          {
+            zoom: 18
+          }
+        )
+
         const styles = feature.getStyles()
         assert.deepEqual({
           casing: { color: 'black', width: 8 },
