@@ -293,6 +293,10 @@ class SublayerFeature {
       const k = styleId === 'default' ? 'style' : ('style:' + styleId)
       let data = this.renderFeatureValue(k)
 
+      if (!data) {
+        return
+      }
+
       if (typeof data === 'string' || 'twig_markup' in data) {
         data = strToStyle(data)
       }
