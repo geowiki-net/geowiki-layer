@@ -20,10 +20,7 @@ describe('simple interactions', function () {
           'color': 'white',
           'width': 4
         },
-        'style:casing': {
-          'color': 'black',
-          'width': 8
-        }
+        'style:casing': 'color: black\nwidth: 8'
       }
     })
 

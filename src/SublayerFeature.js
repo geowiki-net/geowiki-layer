@@ -1,6 +1,7 @@
 const DOMPurify = require('dompurify')
 const twig = require('twig')
 const isTrue = require('./isTrue')
+const strToStyle = require('./strToStyle')
 
 class SublayerFeature {
   constructor (object, sublayer) {
@@ -283,6 +284,10 @@ class SublayerFeature {
     styles.forEach(styleId => {
       const k = styleId === 'default' ? 'style' : ('style:' + styleId)
       let data = this.renderFeatureValue(k)
+
+      if (typeof data === 'string' || 'twig_markup' in data) {
+        data = strToStyle(data)
+      }
 
       result[styleId] = data
     })
