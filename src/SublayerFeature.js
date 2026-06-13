@@ -268,8 +268,9 @@ class SublayerFeature {
     let styles = this.renderFeatureValue('styles')
     if (styles === null || styles === undefined) {
       styles = Object.keys(this.sublayer.options.feature)
-        .filter(k => k.match(/^style(:.*)$/))
+        .filter(k => k.match(/^style(|:.*)$/))
         .map(k => k === 'style' ? 'default' : k.substr(6))
+        .filter(k => !(this.sublayer.options.stylesNoAutoShow ?? []).includes(k))
     } else {
       styles = styles.split(',').map(v => v.trim())
     }
