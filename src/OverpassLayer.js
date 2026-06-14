@@ -21,6 +21,9 @@ class OverpassLayer extends Events {
       options = {}
     }
 
+    this.classes = {}
+    this.installClasses()
+
     this.options = options
 
     this.geowikiAPI = 'geowikiAPI' in this.options ? this.options.geowikiAPI : global.geowikiAPI
@@ -53,7 +56,7 @@ class OverpassLayer extends Events {
     this.currentRequest = null
     this.lastZoom = null
 
-    this.mainlayer = new Sublayer(this, options)
+    this.mainlayer = new this.classes.Mainlayer(this, options)
 
     this.subLayers = {
       main: this.mainlayer
@@ -80,9 +83,14 @@ class OverpassLayer extends Events {
       }
       compileFeature(memberOptions.feature, twig)
 
-      this.memberlayer = new Memberlayer(this, memberOptions)
+      this.memberlayer = new this.classes.Memberlayer(this, memberOptions)
       this.subLayers.member = this.memberlayer
     }
+  }
+
+  installClasses () {
+    this.classes.Mainlayer = Sublayer
+    this.classes.Memberlayer = Memberlayer
   }
 
   setLayout (id, layout) {
