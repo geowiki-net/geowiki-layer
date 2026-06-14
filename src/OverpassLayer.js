@@ -163,7 +163,7 @@ class OverpassLayer extends Events {
 
     if (this.options.attribution) {
       this.hideAll()
-      this.check_update_map()
+      this._process()
     }
   }
 
@@ -172,9 +172,18 @@ class OverpassLayer extends Events {
       this.setAttribution()
     }
 
-    const queryOptions = JSON.parse(JSON.stringify(this.options.queryOptions))
     this.bounds = new BoundingBox(options.bounds)
     this.zoom = options.zoom
+
+    this._process(callback)
+  }
+
+  _process (callback) {
+    if (!callback) {
+      callback = () => {}
+    }
+
+    const queryOptions = JSON.parse(JSON.stringify(this.options.queryOptions))
 
     if (this.options.bounds) {
       const bounds = turf.intersect(this.bounds.toGeoJSON(), this.options.bounds)
