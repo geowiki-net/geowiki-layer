@@ -56,30 +56,6 @@ class Sublayer extends Events {
     this.map.on('popupclose', this._popupClose.bind(this))
   }
 
-  _popupOpen (e) {
-    if (e.popup.sublayer === this) {
-      const ob = e.popup.object
-
-      ob._popupOpen(e)
-
-      this.emit('selectObject', ob.object, ob)
-      this.master.emit('selectObject', ob.object, ob)
-
-      this.updateAssets(e.popup._contentNode)
-    }
-  }
-
-  _popupClose (e) {
-    if (e.popup.sublayer === this) {
-      const ob = e.popup.object
-
-      ob._popupClose(e)
-
-      this.emit('unselectObject', ob.object, ob)
-      this.master.emit('unselectObject', ob.object, ob)
-    }
-  }
-
   domUpdateHooks (node) {
     if (node.getAttribute) {
       const id = node.getAttribute('data-object')
@@ -137,9 +113,6 @@ class Sublayer extends Events {
   }
 
   remove () {
-    this.map.off('popupopen', this._popupOpen.bind(this))
-
-    this.map = null
   }
 
   startAdding () {
@@ -188,26 +161,6 @@ class Sublayer extends Events {
   }
 
   reorder () {
-    if (!this._initiateReorder) {
-      this._initiateReorder = global.setTimeout(() => this._reorder(), 0)
-    }
-  }
-
-  _reorder () {
-    delete this._initiateReorder
-    const allFeatureFeatures = Object.values(this.visibleFeatures)
-      .map(f => Object.values(f.features))
-      .flat()
-
-    // send all negative zIndex features to the back
-    allFeatureFeatures.filter(f => (f.options.zIndex ?? 0) < 0)
-      .sort((a, b) => (b.options.zIndex ?? 0) - (a.options.zIndex ?? 0))
-      .forEach(f => f.bringToBack())
-
-    // send all positive zIndex features to the front
-    allFeatureFeatures.filter(f => (f.options.zIndex ?? 0) > 0)
-      .sort((a, b) => (a.options.zIndex ?? 0) - (b.options.zIndex ?? 0))
-      .forEach(f => f.bringToFront())
   }
 
   hideAll (force) {
