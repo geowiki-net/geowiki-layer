@@ -47,6 +47,17 @@ class Sublayer extends Events {
     }
 
     decorators.forEach(Ext => new Ext(this))
+
+    this._styles = {}
+    Object.keys(this.options.feature)
+      .filter(k => k.match(/^style(|:.*)$/))
+      .forEach(k => {
+        const styleId = k === 'style' ? 'default' : k.substr(6)
+        this._styles[styleId] = k
+      })
+    if ('style:default' in this.options.feature) {
+      this._styles.default = 'style:default'
+    }
   }
 
   addTo (map) {

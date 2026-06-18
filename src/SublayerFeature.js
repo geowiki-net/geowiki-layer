@@ -267,9 +267,7 @@ class SublayerFeature {
 
     let styles = this.renderFeatureValue('styles')
     if (styles === null || styles === undefined) {
-      styles = Object.keys(this.sublayer.options.feature)
-        .filter(k => k.match(/^style(|:.*)$/))
-        .map(k => k === 'style' ? 'default' : k.substr(6))
+      styles = Object.keys(this.sublayer._styles)
         .filter(k => !(this.sublayer.options.stylesNoAutoShow ?? []).includes(k))
     } else {
       styles = styles.split(',').map(v => v.trim())
@@ -291,7 +289,7 @@ class SublayerFeature {
     const styles = this._renderableStyles()
 
     styles.forEach(styleId => {
-      const k = styleId === 'default' ? 'style' : ('style:' + styleId)
+      const k = this.sublayer._styles[styleId]
       let data = this.renderFeatureValue(k)
 
       if (!data) {
