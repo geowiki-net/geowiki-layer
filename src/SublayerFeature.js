@@ -269,6 +269,8 @@ class SublayerFeature {
     if (styles === null || styles === undefined) {
       styles = Object.keys(this.sublayer._styles)
         .filter(k => !(this.sublayer.options.stylesNoAutoShow ?? []).includes(k))
+    } else if (Array.isArray(styles)) {
+      // nothing
     } else {
       styles = styles.split(',').map(v => v.trim())
     }
